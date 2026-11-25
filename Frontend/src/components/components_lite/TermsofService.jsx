@@ -7,8 +7,8 @@ const TermsOfService = () => {
 
       <h2 className="text-xl md:text-2xl font-semibold mt-8 mb-4">1. Introduction</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        Welcome to [Your Website Name]. These Terms and Conditions govern your
-        use of our website located at [Your Website URL]. By accessing or using
+        Welcome to Job Forest. These Terms and Conditions govern your
+        use of our website located at https://job-forest.netlify.app/. By accessing or using
         our website, you agree to comply with these terms.
       </p>
 
@@ -37,14 +37,14 @@ const TermsOfService = () => {
       <h2 className="text-xl md:text-2xl font-semibold mt-8 mb-4">5. Intellectual Property</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         All content, trademarks, and other intellectual property on the website
-        are owned by or licensed to [Your Website Name]. You may not reproduce,
+        are owned by or licensed to Job Forest. You may not reproduce,
         distribute, or create derivative works from any content without our
         express written permission.
       </p>
 
       <h2 className="text-xl md:text-2xl font-semibold mt-8 mb-4">6. Limitation of Liability</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        To the fullest extent permitted by law, [Your Website Name] shall not be
+        To the fullest extent permitted by law, Job Forest shall not be
         liable for any direct, indirect, incidental, special, consequential, or
         punitive damages arising from your use of the website.
       </p>
@@ -52,15 +52,15 @@ const TermsOfService = () => {
       <h2 className="text-xl md:text-2xl font-semibold mt-8 mb-4">7. Governing Law</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         These Terms and Conditions shall be governed by and construed in
-        accordance with the laws of [Your Jurisdiction]. Any disputes arising in
+        accordance with the laws of India. Any disputes arising in
         connection with these terms shall be subject to the exclusive
-        jurisdiction of the courts of [Your Jurisdiction].
+        jurisdiction of the courts of Kochi (Ernakulam), Kerala, India.
       </p>
 
       <h2 className="text-xl md:text-2xl font-semibold mt-8 mb-4">8. Contact Information</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         If you have any questions about these Terms and Conditions, please
-        contact us at [Your Contact Information].
+        contact us at abdul.latif.veliath@gmail.com.
       </p>
     </div>
   );
