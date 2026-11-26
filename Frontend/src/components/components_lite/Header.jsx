@@ -19,8 +19,7 @@ const Header = () => {
     <div className="px-4 md:px-0">
       <div className="text-center">
         <div className="flex flex-col gap-5 my-10">
-          <br />
-          <br />
+          <div className="mt-5 mb-5"></div>
           <h2 className="mt-5 text-3xl md:text-5xl font-bold leading-tight">
             Find the Job That <span className="text-[#6A38C2]">Fits You</span>, Not Just Any Job.
           </h2>
