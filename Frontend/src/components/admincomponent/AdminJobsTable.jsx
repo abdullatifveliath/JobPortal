@@ -105,6 +105,7 @@ const AdminJobsTable = () => {
                         <Eye className="w-4"></Eye>
                         <span>Applicants</span>
                       </div>
+                      <hr />
                       <button
                         type="button"
                         disabled={deleting === job._id}
