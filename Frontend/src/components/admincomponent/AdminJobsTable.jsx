@@ -100,12 +100,10 @@ const AdminJobsTable = () => {
                         <Edit2 className="w-4" />
                         <span>Edit</span>
                       </div>
-                      <hr />
                       <div onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)} className="flex items-center gap-2 w-fit cursor-pointer mt-1">
                         <Eye className="w-4"></Eye>
                         <span>Applicants</span>
                       </div>
-                      <hr />
                       <button
                         type="button"
                         disabled={deleting === job._id}
