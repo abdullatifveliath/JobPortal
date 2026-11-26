@@ -108,7 +108,7 @@ const AdminJobsTable = () => {
                         type="button"
                         disabled={deleting === job._id}
                         onClick={() => deleteJob(job)}
-                        className="flex items-center gap-2 w-fit text-red-600 hover:text-red-700 disabled:opacity-50"
+                        className="flex items-center gap-2 w-fit mt-2 text-red-600 hover:text-red-700 disabled:opacity-50"
                       >
                         <Trash2 className="w-4" />
                         <span>{deleting === job._id ? "Deleting..." : "Delete"}</span>
