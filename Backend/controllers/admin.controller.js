@@ -5,6 +5,7 @@ import { Company } from "../models/company.model.js";
 import { Application } from "../models/application.model.js";
 import cloudinary from "../utils/cloud.js";
 import { escapeRegex } from "../utils/escapeRegex.js";
+import { deleteApplications, deleteJobs } from "../utils/cleanup.js";
 
 // Super admin actions. Every route here is behind requireRole("Admin").
 
@@ -25,32 +26,6 @@ const notFound = (res, what) =>
 const serverError = (res, error) => {
   console.error(error);
   return res.status(500).json({ message: "Server error", success: false });
-};
-
-// remove applications and keep each job's applications list in sync
-const deleteApplications = async (filter) => {
-  const apps = await Application.find(filter).select("_id job");
-  if (!apps.length) return 0;
-  const ids = apps.map((a) => a._id);
-  await Job.updateMany(
-    { _id: { $in: [...new Set(apps.map((a) => a.job.toString()))] } },
-    { $pull: { applications: { $in: ids } } }
-  );
-  await Application.deleteMany({ _id: { $in: ids } });
-  return ids.length;
-};
-
-// remove jobs together with their applications
-const deleteJobs = async (filter) => {
-  const jobIds = await Job.find(filter).distinct("_id");
-  if (!jobIds.length) return { jobs: 0, applications: 0 };
-  const applications = await Application.deleteMany({ job: { $in: jobIds } });
-  await User.updateMany(
-    { savedJobs: { $in: jobIds } },
-    { $pull: { savedJobs: { $in: jobIds } } }
-  );
-  await Job.deleteMany({ _id: { $in: jobIds } });
-  return { jobs: jobIds.length, applications: applications.deletedCount };
 };
 
 // GET /api/admin/stats

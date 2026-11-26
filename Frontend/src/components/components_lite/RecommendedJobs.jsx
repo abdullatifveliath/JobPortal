@@ -36,7 +36,7 @@ const RecommendedJobs = ({ jobId }) => {
   if (loading) {
     return (
       <div className="mt-10">
-        <h2 className="font-bold text-xl mb-5">Recommended For You</h2>
+        <h2 className="font-bold text-xl mb-5">Recommended For You By AI</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[1, 2, 3].map((n) => (
             <div
@@ -73,7 +73,7 @@ const RecommendedJobs = ({ jobId }) => {
 
   return (
     <div className="mt-10">
-      <h2 className="font-bold text-xl mb-5">Recommended For You</h2>
+      <h2 className="font-bold text-xl mb-5">Recommended For You By AI</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {jobs.map((job) => (

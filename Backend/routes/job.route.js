@@ -8,6 +8,7 @@ import {
   getJobById,
   getRecommendedJobs,
   postJob,
+  deleteJob,
 } from "../controllers/job.controller.js";
 
 const router = express.Router();
@@ -22,4 +23,5 @@ router
   .get(authenticateToken, requireRole("Recruiter"), getAdminJobs);
 router.route("/get/:id").get(getJobById);
 router.route("/recommendations/:id").get(getRecommendedJobs);
+router.route("/:id").delete(authenticateToken, requireRole("Recruiter"), deleteJob);
 export default router;

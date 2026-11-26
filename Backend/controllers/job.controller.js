@@ -5,6 +5,8 @@ import askAI from "../utils/aiClient.js";
 import jwt from "jsonwebtoken";
 
 import { escapeRegex } from "../utils/escapeRegex.js";
+import { deleteJobs } from "../utils/cleanup.js";
+import mongoose from "mongoose";
 
 // public routes can still know who is asking, if a valid login cookie is sent
 const getOptionalUserId = (req) => {
@@ -238,6 +240,36 @@ export const getAdminJobs = async (req, res) => {
       return res.status(404).json({ message: "No jobs found", success: false });
     }
     return res.status(200).json({ jobs, success: true });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server Error", success: false });
+  }
+};
+
+// DELETE /api/job/:id - the recruiter who posted it removes a job.
+// Jobs that job seekers have applied to are kept, so applicants don't
+// silently lose their application history (an admin can still remove them).
+export const deleteJob = async (req, res) => {
+  try {
+    const notFound = () =>
+      res.status(404).json({ message: "Job not found", success: false });
+    if (!mongoose.isValidObjectId(req.params.id)) return notFound();
+
+    // owner check is part of the query: someone else's job is "not found"
+    const job = await Job.findOne({ _id: req.params.id, created_by: req.id }).select("title");
+    if (!job) return notFound();
+
+    const applications = await Application.countDocuments({ job: job._id });
+    if (applications > 0) {
+      return res.status(409).json({
+        message: `"${job.title}" can't be deleted: ${applications} job seeker(s) have applied to it. Contact an admin if it really needs to go.`,
+        applications,
+        success: false,
+      });
+    }
+
+    await deleteJobs({ _id: job._id }); // also removes it from saved-jobs lists
+    return res.status(200).json({ message: `"${job.title}" has been deleted`, success: true });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server Error", success: false });

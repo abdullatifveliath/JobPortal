@@ -62,7 +62,7 @@ const ChatWidget = () => {
       {open ? (
         <div className="flex flex-col w-[calc(100vw-2rem)] sm:w-96 h-[32rem] max-h-[80vh] bg-white rounded-xl shadow-2xl border">
           <div className="flex items-center justify-between px-4 py-3 bg-[#6B3AC2] text-white rounded-t-xl">
-            <span className="font-semibold">Job Assistant</span>
+            <span className="font-semibold">AI Job Assistant</span>
             <button onClick={() => setOpen(false)} aria-label="Close chat">
               <X size={18} />
             </button>

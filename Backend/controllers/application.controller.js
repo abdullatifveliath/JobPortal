@@ -3,6 +3,7 @@ import { Job } from "../models/job.model.js";
 import { User } from "../models/user.model.js";
 import mongoose from "mongoose";
 import { escapeRegex } from "../utils/escapeRegex.js";
+import { deleteApplications } from "../utils/cleanup.js";
 
 export const applyJob = async (req, res) => {
   try {
@@ -231,6 +232,40 @@ export const updateStatus = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Application status updated", success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", success: false });
+  }
+};
+
+// DELETE /api/application/:id - a job seeker withdraws their own application.
+// Only while it's still pending: once the recruiter has accepted or rejected
+// it, the decision stays on record. After withdrawing they can apply again.
+export const withdrawApplication = async (req, res) => {
+  try {
+    const notFound = () =>
+      res.status(404).json({ message: "Application not found", success: false });
+    if (!mongoose.isValidObjectId(req.params.id)) return notFound();
+
+    // owner check is part of the query: someone else's application is "not found"
+    const application = await Application.findOne({ _id: req.params.id, applicant: req.id })
+      .populate("job", "title");
+    if (!application) return notFound();
+
+    if (application.status !== "pending") {
+      return res.status(409).json({
+        message: `This application was already ${application.status}, so it can't be withdrawn.`,
+        success: false,
+      });
+    }
+
+    await deleteApplications({ _id: application._id }); // also updates the job's list
+    return res.status(200).json({
+      message: application.job?.title
+        ? `Application for "${application.job.title}" withdrawn`
+        : "Application withdrawn",
+      success: true,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", success: false });

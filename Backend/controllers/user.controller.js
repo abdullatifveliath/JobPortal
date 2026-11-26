@@ -326,10 +326,11 @@ export const resendOtp = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    // no role needed: the account already knows if it's a job seeker,
+    // recruiter or admin (any "role" sent by an old page is ignored)
     const { email, password } = req.body;
-    const role = normalizeRole(req.body.role);
 
-    if (!email || !password || !role) {
+    if (!email || !password) {
       return res.status(404).json({
         message: "Missing required fields",
         success: false,
@@ -364,14 +365,6 @@ export const login = async (req, res) => {
         success: false,
       });
     }
-    //check role correctly or not (admins can log in with either option selected)
-    if (user.role !== role && user.role !== "Admin") {
-      return res.status(403).json({
-        message: "You don't have the necessary role to access this resource",
-        success: false,
-      });
-    }
-
     //generate token
     const tokenData = {
       userId: user._id,

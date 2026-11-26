@@ -3,7 +3,6 @@ import Navbar from "../components_lite/Navbar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Navigate, useNavigate } from "react-router-dom";
-import { RadioGroup } from "../ui/radio-group";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import axios from "axios";
@@ -15,17 +14,13 @@ import { setLoading, setUser } from "@/redux/authSlice";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
-    password: "", 
-    role: "",
+    password: "",
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, user } = useSelector((store) => store.auth);
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
-  };
-  const ChangeFilehandler = (e) => {
-    setInput({ ...input, file: e.target.files?.[0] });
   };
 
   const submitHandler = async (e) => {
@@ -39,7 +34,9 @@ const Login = () => {
       });
       if (res.data.success) {
         dispatch(setUser(res.data.user));
-        navigate("/");
+        // each account type has its own start page
+        const role = res.data.user?.role;
+        navigate(role === "Recruiter" ? "/admin/companies" : role === "Admin" ? "/super-admin" : "/");
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -85,7 +82,7 @@ const Login = () => {
                 value={input.email}
                 name="email"
                 onChange={changeEventHandler}
-                placeholder="johndoe@gmail.com"
+                placeholder="you@example.com"
                 className="mt-1 w-full focus:ring-[#6B3AC2]"
               />
             </div>
@@ -107,34 +104,6 @@ const Login = () => {
                   Forgot Password?
                 </Link>
               </div>
-            </div>
-
-            <div className="pt-2">
-              <Label className="text-gray-700 font-semibold">Select Role</Label>
-              <RadioGroup className="flex items-center gap-6 mt-2">
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="radio"
-                    name="role"
-                    value="JobSeeker"
-                    checked={input.role === "JobSeeker"}
-                    onChange={changeEventHandler}
-                    className="cursor-pointer w-4 h-4 text-[#6B3AC2]"
-                  />
-                  <Label htmlFor="r1" className="cursor-pointer">Job Seeker</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="radio"
-                    name="role"
-                    value="Recruiter"
-                    checked={input.role === "Recruiter"}
-                    onChange={changeEventHandler}
-                    className="cursor-pointer w-4 h-4 text-[#6B3AC2]"
-                  />
-                  <Label htmlFor="r2" className="cursor-pointer">Recruiter</Label>
-                </div>
-              </RadioGroup>
             </div>
           </div>
 

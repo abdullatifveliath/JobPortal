@@ -7,6 +7,7 @@ import {
   getCompanyById,
   registerCompany,
   updateCompany,
+  deleteCompany,
 } from "../controllers/company.controller.js";
 import { singleUpload } from "../middleware/multer.js";
 
@@ -19,5 +20,6 @@ router.route("/register").post(registerCompany);
 router.route("/get").get(getAllCompanies);
 router.route("/get/:id").get(getCompanyById);
 router.route("/update/:id").put(singleUpload, updateCompany);
+router.route("/:id").delete(deleteCompany);
 
 export default router;

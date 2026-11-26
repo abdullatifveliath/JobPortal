@@ -10,9 +10,13 @@ import {
 } from "../ui/table";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Edit2, Eye, MoreHorizontal } from "lucide-react";
-import { useSelector } from "react-redux";
+import { Edit2, Eye, MoreHorizontal, Trash2 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "sonner";
+import { JOB_API_ENDPOINT } from "@/utils/data";
+import { setAllAdminJobs } from "@/redux/jobSlice";
 
 const AdminJobsTable = () => {
   const { companies, searchCompanyByText } = useSelector(
@@ -20,8 +24,25 @@ const AdminJobsTable = () => {
   );
   const { allAdminJobs, searchJobByText } = useSelector((store) => store.job);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [filterJobs, setFilterJobs] = useState(allAdminJobs);
+  const [deleting, setDeleting] = useState(null); // id being deleted
+
+  // jobs with applications are refused by the server, which explains why
+  const deleteJob = async (job) => {
+    if (!window.confirm(`Delete "${job.title}"? This can't be undone.`)) return;
+    setDeleting(job._id);
+    try {
+      const res = await axios.delete(`${JOB_API_ENDPOINT}/${job._id}`, { withCredentials: true });
+      toast.success(res.data.message);
+      dispatch(setAllAdminJobs(allAdminJobs.filter((j) => j._id !== job._id)));
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Could not delete job");
+    } finally {
+      setDeleting(null);
+    }
+  };
 
   useEffect(() => {
     const filteredJobs =
@@ -62,7 +83,7 @@ const AdminJobsTable = () => {
             <span>No Job Added</span>
           ) : (
             filterJobs?.map((job) => (
-              <TableRow key={job.id}>
+              <TableRow key={job._id}>
                 <TableCell>{job?.company?.name}</TableCell>
                 <TableCell>{job.title}</TableCell>
                 <TableCell>{job.createdAt.split("T")[0]}</TableCell>
@@ -84,6 +105,15 @@ const AdminJobsTable = () => {
                         <Eye className="w-4"></Eye>
                         <span>Applicants</span>
                       </div>
+                      <button
+                        type="button"
+                        disabled={deleting === job._id}
+                        onClick={() => deleteJob(job)}
+                        className="flex items-center gap-2 w-fit mt-3 text-red-600 hover:text-red-700 disabled:opacity-50"
+                      >
+                        <Trash2 className="w-4" />
+                        <span>{deleting === job._id ? "Deleting..." : "Delete"}</span>
+                      </button>
                     </PopoverContent>
                   </Popover>
                 </TableCell>

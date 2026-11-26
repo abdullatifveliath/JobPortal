@@ -141,9 +141,6 @@ const Navbar = () => {
                   </Avatar>
                   <div>
                     <h3 className="font-medium">{user?.fullname}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {user?.profile?.bio}
-                    </p>
                   </div>
                 </div>
 

@@ -119,7 +119,7 @@ const ResetPassword = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="johndoe@gmail.com"
+                placeholder="you@example.com"
                 className="mt-1"
               />
             </div>

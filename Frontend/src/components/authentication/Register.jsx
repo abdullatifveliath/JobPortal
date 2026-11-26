@@ -110,7 +110,7 @@ const Register = () => {
                 value={input.fullname}
                 name="fullname"
                 onChange={changeEventHandler}
-                placeholder="John Doe"
+                placeholder="Your full name"
                 className="mt-1 focus:ring-[#6B3AC2]"
               />
             </div>
@@ -121,7 +121,7 @@ const Register = () => {
                 value={input.email}
                 name="email"
                 onChange={changeEventHandler}
-                placeholder="johndoe@gmail.com"
+                placeholder="you@example.com"
                 className="mt-1 focus:ring-[#6B3AC2]"
               />
             </div>
@@ -143,7 +143,7 @@ const Register = () => {
                 value={input.phoneNumber}
                 name="phoneNumber"
                 onChange={changeEventHandler}
-                placeholder="+1234567890"
+                placeholder="+91 98765 43210"
                 className="mt-1 focus:ring-[#6B3AC2]"
               />
             </div>
