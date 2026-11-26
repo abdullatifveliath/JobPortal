@@ -50,7 +50,7 @@ const Navbar = () => {
           <Link to="/">
             <h1 className="text-2xl font-bold cursor-pointer">
               <span className="text-[#6B3AC2]"> Job </span>{" "}
-              <span className="text-[#FA4F09]">Forest</span>
+              <span className="text-[#39bd00]">Forest</span>
             </h1>
           </Link>
         </div>
@@ -116,7 +116,7 @@ const Navbar = () => {
               </Link>
               <Link to={"/register"}>
                 {" "}
-                <Button className="bg-red-600  hover:bg-red-700">
+                <Button className="bg-sky-500/100  hover:bg-sky-500/75">
                   Register
                 </Button>
               </Link>
