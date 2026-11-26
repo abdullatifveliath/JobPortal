@@ -6,7 +6,7 @@ const Footer = () => {
     <div>
       {/* Footer for the current page */}
       <div className="text-center p-4 md:p-8 bg-[#f1f1f1] text-sm md:text-base flex flex-col gap-2">
-        <p>© 2025 Job Forest. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Job Forest. All rights reserved.</p>
         <p>
           Powered by <a href="https://github.com/abdullatifveliath" className="text-blue-600 hover:underline">Abdul Latif</a>
         </p>
